@@ -4,7 +4,7 @@ class CreateBeers < ActiveRecord::Migration[6.1]
       t.string :name
       t.float :degrees
       t.integer :grade
-      t.string :type
+      t.string :kind
       t.references :brewer, null: false, foreign_key: true
 
       t.timestamps
