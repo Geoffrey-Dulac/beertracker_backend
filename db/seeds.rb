@@ -70,4 +70,5 @@ scrapper_beers_service("http://projet.amertume.free.fr/html/listing_chiffres.htm
     scrapper_beers_service("http://projet.amertume.free.fr/html/listing_#{letter}.htm")
 end
 
+
 puts 'Seed done with success !'
