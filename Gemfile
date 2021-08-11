@@ -5,6 +5,7 @@ ruby '2.6.3'
 
 gem 'rack-cors'
 gem 'jwt'
+gem 'bcrypt'
 gem 'nokogiri'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.4'
