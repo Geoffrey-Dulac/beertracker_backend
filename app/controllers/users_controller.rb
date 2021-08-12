@@ -5,7 +5,8 @@ class UsersController < ApplicationController
         user.password = BCrypt::Password.create(params[:password])
         user.save
         if user.valid?
-            render json: { status: 'success' }
+            token = encode_token({user_id: user.id})
+            render json: { status: 'success', token: token }
         elsif params[:email] === '' || params[:password] === '' || params[:username] === ''
             render json: { status: 'failed', message: 'Tous les champs sont obligatoires' }   
         else

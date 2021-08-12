@@ -8,7 +8,8 @@ class AuthController < ApplicationController
         elsif !user
             render json: { status: 'failed', message: "Cet utilisateur n'existe pas" }
         elsif user && BCrypt::Password.new(user.password) == params[:password]
-            render json: { status: 'success' }
+            token = encode_token({user_id: user.id})
+            render json: { status: 'success', token: token }
         elsif user
             render json: { status: 'failed', message: "Mot de passe invalide" }
         end
