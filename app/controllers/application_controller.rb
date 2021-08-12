@@ -1,21 +1,19 @@
 class ApplicationController < ActionController::API
-    before_action :authorized
+    before_action :set_secret_password
 
-    def encode_token
-        JWT.encode(payload, 'my_secret')
+    def encode_token(payload)
+        JWT.encode(payload, @secret_pasword, 'HS256')
     end
 
     def auth_header
-        # { Authorization: 'Bearer <token>' }
         request.headers['Authorization']
     end
 
     def decoded_token
         if auth_header
             token = auth_header.split(' ')[1]
-            # header: { 'Authorization': 'Bearer <token>' }
             begin
-                JWT.decode(token, 'yourSecret', true, algorithm: 'HS256')
+                JWT.decode(token, @secret_pasword, true, algorithm: 'HS256')
             rescue JWT::DecodeError
                 nil
             end
@@ -35,5 +33,11 @@ class ApplicationController < ActionController::API
     
     def authorized
         render json: { message: 'Please log in' }, status: :unauthorized unless logged_in?
+    end
+
+    private 
+
+    def set_secret_password
+        @secret_pasword = 'cr$Pt33'
     end
 end
