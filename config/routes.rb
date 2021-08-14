@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  resource :users, only: [:create]
-  post "/login", to: "auth#login"
-  
-  get 'beers', to: 'beers#index'
+
+  post '/users', to: 'users#create'
+  post '/login', to: 'application#login'  
+  get '/beers', to: 'beers#index'
 end
