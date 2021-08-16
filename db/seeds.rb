@@ -1,5 +1,5 @@
 require 'open-uri'
-
+require 'bcrypt'
 
 # METHODS 
 def formatExtraction(element)
@@ -39,7 +39,6 @@ end
 # BREWERIES SEEDING 
 Brewer.destroy_all
 puts 'Brewers all destroyed !'
-
 puts 'Seeding breweries...'
 brewers_website_scrapping_url = 'http://projet.amertume.free.fr/html/liste_brasseries.htm'
 brewers_html = URI.open(brewers_website_scrapping_url).read
@@ -62,13 +61,47 @@ end
 # BEERS SEEDING 
 Beer.destroy_all
 puts 'Beers all destroyed !'
-
 puts 'Seeding beers...'
 scrapper_beers_service("http://projet.amertume.free.fr/html/listing.htm")
 scrapper_beers_service("http://projet.amertume.free.fr/html/listing_chiffres.htm")
 ('b'..'z').to_a.each do |letter|
     scrapper_beers_service("http://projet.amertume.free.fr/html/listing_#{letter}.htm")
 end
+
+
+# USER SEEDING
+User.destroy_all
+puts 'Users all destroyed !'
+puts 'Seeding users...'
+User.create(username: 'geoffrey', email: 'geoffrey@yopmail.com', password: BCrypt::Password.create('azerty'))
+
+
+# USER_BEERS SEEDING
+UserBeer.destroy_all
+puts 'UserBeers all destroyed !'
+puts 'Seeding userbeers...'
+user = User.find(1)
+beer1 = Beer.find(1)
+beer2 = Beer.find(2)
+beer3 = Beer.find(3)
+beer4 = Beer.find(4)
+userbeer1 = UserBeer.new(user_grade: 8)
+userbeer2 = UserBeer.new(user_grade: 4)
+userbeer3 = UserBeer.new(user_grade: 5)
+userbeer4 = UserBeer.new(user_grade: 7)
+userbeer1.user = user
+userbeer2.user = user
+userbeer3.user = user
+userbeer4.user = user
+userbeer1.beer = beer1
+userbeer2.beer = beer2
+userbeer3.beer = beer3
+userbeer4.beer = beer4
+userbeer1.save!
+userbeer2.save!
+userbeer3.save!
+userbeer4.save!
+
 
 
 puts 'Seed done with success !'
