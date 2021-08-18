@@ -3,6 +3,6 @@ Rails.application.routes.draw do
 
   post '/users', to: 'users#create'
   post '/login', to: 'application#login'  
-  get '/beers', to: 'beers#index'
+  get '/beers_names', to: 'beers#index_names'
   get '/user_beers', to: 'user_beers#user_beers'
 end

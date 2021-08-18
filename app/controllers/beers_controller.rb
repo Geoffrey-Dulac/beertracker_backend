@@ -1,9 +1,12 @@
 class BeersController < ApplicationController
     before_action :authorized
 
-    # /beers
-    def index
-        user = User.find_by(id: decoded_token[0]['user_id'])
-        render json: { username: user.username }
+    # /beers_names
+    def index_names
+        beers_array = []
+        Beer.all.each do |beer|
+            beers_array << beer.name
+        end
+        render json: { beers: beers_array }
     end
 end
