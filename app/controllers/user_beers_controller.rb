@@ -5,11 +5,11 @@ class UserBeersController < ApplicationController
     def index
         user = User.find_by(id: decoded_token[0]['user_id'])
         user_beers_array = []
-        UserBeer.where(user: user).order("user_grade DESC").each_with_index do |user_beer, index|
+        UserBeer.where(user: user).order("user_grade DESC").each do |user_beer|
             data = {}
-            data["#{index}"] = user_beer.beer 
-            data[:user_grade] = user_beer.user_grade
-            data[:brewer] = user_beer.beer.brewer
+            data["user_grade"] = user_beer.user_grade
+            data["brewer"] = user_beer.beer.brewer
+            data["beer"] = user_beer.beer
             user_beers_array << data
         end
         render json: { user_beers: user_beers_array, username: user.username }

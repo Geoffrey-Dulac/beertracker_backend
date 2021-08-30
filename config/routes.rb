@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   post '/login', to: 'application#login' 
 
   get '/beers_names', to: 'beers#index_names'
+  get '/beers', to: 'beers#index'
 
   get '/user_beers', to: 'user_beers#index'
   post '/create_user_beer', to: 'user_beers#create'
