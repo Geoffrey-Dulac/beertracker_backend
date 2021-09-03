@@ -28,4 +28,18 @@ class UserBeersController < ApplicationController
             render json: { status: 'failed', message: "Impossible d'ajouter cette bière, merci de réessayer ultérieurement" }
         end
     end
+
+    # /edit_or_create_usergrade
+    def edit_or_create
+        user = User.find_by(id: decoded_token[0]['user_id'])
+        beer = Beer.find_by(name: params[:beername])
+        usergrade = params[:user_grade]
+        userbeer = UserBeer.find_or_initialize_by(beer: beer, user: user)
+        userbeer.user_grade = usergrade
+        if userbeer.save!
+            render json: { status: 'success' }
+        else 
+            render json: { status: 'failed', message: "Impossible de noter cette bière, merci de réessayer ultérieurement" }
+        end
+    end
 end

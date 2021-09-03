@@ -10,4 +10,5 @@ Rails.application.routes.draw do
 
   get '/user_beers', to: 'user_beers#index'
   post '/create_user_beer', to: 'user_beers#create'
+  post '/edit_or_create_usergrade', to: 'user_beers#edit_or_create'
 end
