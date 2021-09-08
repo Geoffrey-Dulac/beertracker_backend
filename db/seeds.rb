@@ -1,5 +1,7 @@
 require 'open-uri'
 require 'bcrypt'
+require 'nokogiri'
+
 
 # METHODS 
 def formatExtraction(element)
@@ -7,8 +9,7 @@ def formatExtraction(element)
 end
 
 def scrapper_beers_service(url)
-    beers_html = URI.open(url).read
-    beers_doc = Nokogiri::HTML(beers_html)
+    beers_doc = Nokogiri::HTML(URI.open(url))
     counter_beers = 0
     beers_doc.search('tr').each do |element|
         counter_beers += 1
@@ -41,14 +42,13 @@ Brewer.destroy_all
 puts 'Brewers all destroyed !'
 puts 'Seeding breweries...'
 brewers_website_scrapping_url = 'http://projet.amertume.free.fr/html/liste_brasseries.htm'
-brewers_html = URI.open(brewers_website_scrapping_url).read
-brewers_doc = Nokogiri::HTML(brewers_html)
+brewers_doc = Nokogiri::HTML(URI.open(brewers_website_scrapping_url))
 counter_brewers = 0
 brewers_doc.search('#table1 tr').each do |element|
     counter_brewers += 1
     if counter_brewers > 1
-        brewer_name = formatExtraction(element.search('td').first)&.delete_prefix("de ")&.delete_prefix("du ")
-        brewer_city = formatExtraction(element.search('td')[2])
+        brewer_name = formatExtraction(element.search('td').first)&.delete_prefix("de ")&.delete_prefix("du ") || ''
+        brewer_city = formatExtraction(element.search('td')[2]) || ''
         brewer_country = 'france'
         newBrewer = Brewer.find_or_create_by(name: brewer_name)
         newBrewer.city = brewer_city
